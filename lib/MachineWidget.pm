@@ -23,7 +23,7 @@ sub new {
 	my %ttys = $lab->machine_ttys($machine);
 	
 	for my $id (sort { $a cmp $b } keys %ttys) {
-		my $port = @ttys{$id};
+		my $port = $ttys{$id};
 		
 		my $label = Gtk4::Label->new("TTY$id");
 		my $term = &get_term("telnet", "localhost", $port);

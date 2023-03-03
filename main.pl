@@ -8,7 +8,7 @@ use lib './lib';
 use Lab;
 use MainWindow;
 
-my $lab = Lab->new('/home/rhys/nklabs/lab02-abr/');
+my $lab = Lab->new('/home/rhys/nklabs/nccd-arch/res/');
 
 my $win = MainWindow->new($lab);
 

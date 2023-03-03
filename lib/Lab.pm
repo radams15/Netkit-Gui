@@ -28,7 +28,22 @@ sub start {
 	
 	chdir $dir;
 	
-	system("lstart --port-start $port_start");
+	system("lstart --pass=--con0=none a --port-start $port_start");
+	
+	chdir $start_dir;
+}
+
+sub stop {
+	my $class = shift;
+	
+	my $dir = shift;
+	my $port_start = shift;
+	
+	my $start_dir = getcwd;
+	
+	chdir $dir;
+	
+	system("lcrash");
 	
 	chdir $start_dir;
 }

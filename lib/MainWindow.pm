@@ -28,26 +28,18 @@ sub activate {
 	
 	my $win = Gtk4::ApplicationWindow->new($class->{app});
 	
+	my $header = Gtk4::HeaderBar->new();
+	
+	$win->set_titlebar($header);
+	
 	$class->{main_notebook} = Gtk4::Notebook->new();
 	
 	for my $machine ($class->{lab}->machines) {
-=pod
-		my @ttys = $class->{lab}->machine_ttys($machine);
-		
-		my $tty1 = $ttys[1];
-		
-		my $term = &get_term("telnet", "localhost", $tty1);
-		
-		my $label = Gtk4::Label->new("$machine tty1");
-=cut
-
 		my $label = Gtk4::Label->new("$machine");
 		
 		my $widget = MachineWidget->new($class->{lab}, $machine);
 
 		$class->{main_notebook}->append_page($widget, $label);
-	
-		print "$machine\n";
 	}
 
 	$win->set_child($class->{main_notebook});
