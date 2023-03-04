@@ -12,7 +12,7 @@ use Exporter;
 our @ISA = qw(Exporter);
 
 my $_VTE_BASENAME = 'Vte';
-my $_VTE_VERSION = '3.91';
+my $_VTE_VERSION = '2.91';
 my $_VTE_PACKAGE = 'Vte';
 
 sub import {

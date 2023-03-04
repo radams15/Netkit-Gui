@@ -7,31 +7,31 @@ use Env qw(HOME);
 
 use Glib::IO;
 use Vte;
-use Gtk4;
+use Gtk3;
 
 sub new {
 	my $class = shift;
 	
 	my $lab = shift;
-	my $machine = shift;
-	
+	my $machine = shift;	
 
-	my $self = Gtk4::Box->new('vertical', 5);
+	my $self = Gtk3::Box->new('vertical', 5);
 	
-	$self->{tty_notebook} = Gtk4::Notebook->new();
+	$self->{tty_notebook} = Gtk3::Notebook->new();
 	
 	my %ttys = $lab->machine_ttys($machine);
 	
 	for my $id (sort { $a cmp $b } keys %ttys) {
 		my $port = $ttys{$id};
 		
-		my $label = Gtk4::Label->new("TTY$id");
+		my $label = Gtk3::Label->new("TTY$id");
 		my $term = &get_term("telnet", "localhost", $port);
 		
 		$self->{tty_notebook}->append_page($term, $label);
+		$self->{tty_notebook}->child_set($term, tab_expand => 1);
 	}
 
-	$self->append($self->{tty_notebook});
+	$self->add($self->{tty_notebook});
 
 	return $self;
 }
@@ -46,10 +46,11 @@ sub get_term {
 		$HOME,
 		\@cmds,
 		[],
-		'do_not_reap_child',
-		undef,
-		undef,
+		'default',
 	);
+	
+	$out->set_vexpand(1);
+	$out->set_hexpand(1);
 	
 	return $out;
 }
