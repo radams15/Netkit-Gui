@@ -8,12 +8,13 @@ use lib './lib';
 use Lab;
 use MainWindow;
 
+my $lab_dir = $ARGV[0] or die "Lab directory required!";
 
-#my $lab = Lab->new('/home/rhys/nklabs/nccd-arch/res/');
-my $lab = Lab->new('/home/rhys/nklabs/lab02-abr/');
+my $lab = Lab->new($lab_dir);
 
 if(! $lab->is_started) {
-	print "Lab not started, please start the lab!\n";
+	print "Lab not started, starting lab!\n";
+	$lab->start;
 }
 
 my $win = MainWindow->new($lab);

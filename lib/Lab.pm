@@ -45,7 +45,7 @@ sub start {
 	
 	chdir $class->{dir};
 	
-	system("lstart --pass=--con0=none a --port-start $port_start");
+	system("lstart --pass=--con0=none --port-start $port_start");
 	
 	chdir $start_dir;
 }
