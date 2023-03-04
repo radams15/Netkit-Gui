@@ -5,10 +5,11 @@ use strict;
 
 use Cwd;
 use Env qw(HOME);
+use List::Util qw(any);
 
 sub new {
 	my $class = shift;
-	my ($dir) = shift;
+	my $dir = shift;
 	
 	my $self = bless {
 		dir => $dir,
@@ -17,16 +18,32 @@ sub new {
 	return $self;
 }
 
+sub is_started {
+	my $class = shift;
+	
+	my @machines = $class->machines();
+	
+	# Gets list of running machine names in ~/.netkit/machines/. Regex removes path.
+	my @running = map { $_ =~ /$HOME\/\.netkit\/machines\/(.*?)\//g ? $1 : undef } <$HOME/.netkit/machines/*/>;
+	
+	for my $machine (@machines) {				
+		if(! (any {$_ eq $machine} @running)) {
+			return 0;
+		}
+	}
+	
+	return 1;
+}
+
 
 sub start {
 	my $class = shift;
 	
-	my $dir = shift;
 	my $port_start = shift // 5000;
 	
 	my $start_dir = getcwd;
 	
-	chdir $dir;
+	chdir $class->{dir};
 	
 	system("lstart --pass=--con0=none a --port-start $port_start");
 	
@@ -36,12 +53,9 @@ sub start {
 sub stop {
 	my $class = shift;
 	
-	my $dir = shift;
-	my $port_start = shift;
-	
 	my $start_dir = getcwd;
 	
-	chdir $dir;
+	chdir $class->{dir};
 	
 	system("lcrash");
 	
