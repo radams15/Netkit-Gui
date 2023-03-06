@@ -17,6 +17,6 @@ if(! $lab->is_started) {
 	$lab->start;
 }
 
-my $win = MainWindow->new($lab);
+my $win = MainWindow->new($lab, 0);
 
 $win->run;

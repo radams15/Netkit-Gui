@@ -15,9 +15,11 @@ sub new {
 	my $class = shift;
 	
 	my $lab = shift;
+	my $headerbar = shift // 1;
 	
 	my $self = bless {
-		lab => $lab
+		lab => $lab,
+		headerbar => $headerbar
 	}, $class;
 
 	return $self;
@@ -28,9 +30,11 @@ sub activate {
 	
 	$class->{win} = Gtk3::ApplicationWindow->new($class->{app});
 	
-	my $header = Gtk3::HeaderBar->new();
-	$header->set_show_close_button(1);
-	$class->{win}->set_titlebar($header);
+	if($class->{headerbar}){
+		my $header = Gtk3::HeaderBar->new();
+		$header->set_show_close_button(1);
+		$class->{win}->set_titlebar($header);
+	}
 	
 	$class->{main_notebook} = Gtk3::Notebook->new();
 	$class->{main_notebook}->signal_connect(create_window => sub {$class->notebook_create_window($class->{main_notebook})});
@@ -39,7 +43,7 @@ sub activate {
 	for my $machine ($class->{lab}->machines) {
 		my $label = Gtk3::Label->new("$machine");
 		
-		my $widget = MachineWidget->new($class->{lab}, $machine);
+		my $widget = MachineWidget->new($class->{lab}, $machine, $class->{headerbar});
 
 		$class->{main_notebook}->append_page($widget, $label);
 		

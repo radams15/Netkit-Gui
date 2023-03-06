@@ -13,7 +13,8 @@ sub new {
 	my $class = shift;
 	
 	my $lab = shift;
-	my $machine = shift;	
+	my $machine = shift;
+	my $headerbar = shift;
 
 	my $self = Gtk3::Box->new('vertical', 5);
 	
