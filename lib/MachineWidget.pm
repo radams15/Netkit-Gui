@@ -41,6 +41,14 @@ sub get_term {
 	my @cmds = @_;
 	
 	my $out = Vte::Terminal->new;
+	my $gsettings = Gtk3::Settings::get_default;
+	
+	my $style_context = $out->get_style_context;
+	my $fg = $style_context->get_color($style_context->get_state);
+	my $bg = $style_context->get_background_color($style_context->get_state);
+	
+	$out->set_colors($fg, $bg, []);
+	
 	
 	$out->spawn_sync (
 		'default',
