@@ -10,6 +10,11 @@ use File::Spec;
 use NetkitGui::Lab;
 use NetkitGui::MainWindow;
 
+
+our $VERSION = 0.01;
+
+
+
 my $lab_dir = $ARGV[0] or die "Lab directory required!";
 
 $lab_dir = File::Spec->rel2abs($lab_dir);
@@ -24,3 +29,31 @@ if(! $lab->is_started) {
 my $win = NetkitGui::MainWindow->new($lab, 0);
 
 $win->run;
+
+
+
+=head1 Name
+
+NetkitGui - A GUI for Netkit labs.
+ 
+=head1 DESCRIPTION
+
+Simple GTK+ GUI written in Perl.
+
+Allows for 6 TTYs per machine in tabs.
+
+=head1 AUTHOR
+
+Adams, Rhys <rhys@therhys.co.uk>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2023 by Rhys Adams
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.32.1 or,
+at your option, any later version of Perl 5 you may have available.
+
+
+=cut
+
