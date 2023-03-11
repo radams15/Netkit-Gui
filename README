@@ -3,3 +3,5 @@ Netkit Gui
 Simple GTK+ GUI written in Perl.
 
 Allows for 6 TTYs per machine in tabs.
+
+Get at: https://metacpan.org/pod/App::NetkitGui
