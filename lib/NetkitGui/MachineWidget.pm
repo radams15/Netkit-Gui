@@ -1,4 +1,4 @@
-package MachineWidget;
+package NetkitGui::MachineWidget;
 
 use warnings;
 use strict;

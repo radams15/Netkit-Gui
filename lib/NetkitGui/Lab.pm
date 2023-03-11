@@ -1,4 +1,4 @@
-package Lab;
+package NetkitGui::Lab;
 
 use warnings;
 use strict;

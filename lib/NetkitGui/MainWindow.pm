@@ -1,4 +1,4 @@
-package MainWindow;
+package NetkitGui::MainWindow;
 
 use warnings;
 use strict;

@@ -1,4 +1,4 @@
-package Vte;
+package NetkitGui::Vte;
 
 use warnings;
 use strict;

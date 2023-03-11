@@ -1,0 +1,9 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+bin/netkitgui
+lib/NetkitGui/Lab.pm
+lib/NetkitGui/MachineWidget.pm
+lib/NetkitGui/MainWindow.pm
+lib/NetkitGui/Vte.pm
