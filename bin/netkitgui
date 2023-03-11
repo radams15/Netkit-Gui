@@ -5,10 +5,14 @@ use strict;
 
 use lib './lib';
 
+use File::Spec;
+
 use NetkitGui::Lab;
 use NetkitGui::MainWindow;
 
 my $lab_dir = $ARGV[0] or die "Lab directory required!";
+
+$lab_dir = File::Spec->rel2abs($lab_dir);
 
 my $lab = NetkitGui::Lab->new($lab_dir);
 
