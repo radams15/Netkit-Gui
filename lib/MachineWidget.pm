@@ -49,6 +49,24 @@ sub get_term {
 	
 	$out->set_colors($fg, $bg, []);
 	
+	$out->signal_connect(key_press_event => sub {
+		my ($widget, $evt) = @_;
+		
+		my $key = $evt->keyval;
+		my $ctrl = $evt->state & 'control-mask';
+		
+		# KEY_C == uppercase 'C', so includes the shift also. Lowercase 'c' would be KEY_c.
+		if($ctrl && ($key == Gtk3::Gdk::KEY_C)){
+			$out->copy_clipboard();
+			return 1;
+		} elsif ($ctrl && ($key == Gtk3::Gdk::KEY_V)){
+			$out->paste_clipboard();
+			return 1;
+		}
+		
+		return 0;
+	});
+	
 	
 	$out->spawn_sync (
 		'default',
