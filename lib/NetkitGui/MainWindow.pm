@@ -6,10 +6,9 @@ use strict;
 use Env qw(HOME);
 
 use Glib::IO;
-use Vte;
 use Gtk3 -init;
 
-use MachineWidget;
+use NetkitGui::MachineWidget;
 
 sub new {
 	my $class = shift;
@@ -43,7 +42,7 @@ sub activate {
 	for my $machine ($class->{lab}->machines) {
 		my $label = Gtk3::Label->new("$machine");
 		
-		my $widget = MachineWidget->new($class->{lab}, $machine, $class->{headerbar});
+		my $widget = NetkitGui::MachineWidget->new($class->{lab}, $machine, $class->{headerbar});
 
 		$class->{main_notebook}->append_page($widget, $label);
 		

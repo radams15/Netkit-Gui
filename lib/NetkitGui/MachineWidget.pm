@@ -6,7 +6,7 @@ use strict;
 use Env qw(HOME);
 
 use Glib::IO;
-use Vte;
+use NetkitGui::Vte;
 use Gtk3;
 
 sub new {
