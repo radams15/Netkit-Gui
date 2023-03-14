@@ -26,7 +26,7 @@ sub new {
 		my $port = $ttys{$id};
 		
 		my $label = Gtk3::Label->new("TTY$id");
-		my $term = &get_term("telnet", "localhost", $port);
+		my $term = &get_term("/usr/bin/telnet", "localhost", $port);
 		
 		$self->{tty_notebook}->append_page($term, $label);
 		$self->{tty_notebook}->child_set($term, tab_expand => 1);

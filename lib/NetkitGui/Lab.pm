@@ -73,7 +73,9 @@ sub machines {
 		s/$root//g;
 		s/\/(.*?)\//$1/g; # Get the lab name.
 		
-		push @out, $_;
+		if($_ ne 'shared') {
+			push @out, $_;
+		}
 	}
 	
 	return @out;
