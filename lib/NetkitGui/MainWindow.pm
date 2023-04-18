@@ -36,6 +36,7 @@ sub activate {
 	}
 	
 	$class->{main_notebook} = Gtk3::Notebook->new();
+	$class->{main_notebook}->set_scrollable(1);
 	$class->{main_notebook}->signal_connect(create_window => sub {$class->notebook_create_window($class->{main_notebook})});
 	$class->{main_notebook}->set_group_name('0');
 	
