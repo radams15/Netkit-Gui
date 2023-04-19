@@ -4,10 +4,13 @@ use warnings;
 use strict;
 
 use Env qw(HOME);
+use Cwd;
 
 use Glib::IO;
 use NetkitGui::Vte;
 use Gtk3;
+
+my $NUM_TTYS = 3;
 
 sub new {
 	my $class = shift;
@@ -19,14 +22,12 @@ sub new {
 	my $self = Gtk3::Box->new('vertical', 5);
 	
 	$self->{tty_notebook} = Gtk3::Notebook->new();
-	
-	my %ttys = $lab->machine_ttys($machine);
-	
-	for my $id (sort { $a cmp $b } keys %ttys) {
-		my $port = $ttys{$id};
-		
+
+	my @ttys = (0..($NUM_TTYS-1));
+
+	for my $id (@ttys) {
 		my $label = Gtk3::Label->new("TTY$id");
-		my $term = &get_term("/usr/bin/telnet", "localhost", $port);
+		my $term = &get_term("$HOME/.local/bin/kathara", "connect", "$machine");
 		
 		$self->{tty_notebook}->append_page($term, $label);
 		$self->{tty_notebook}->child_set($term, tab_expand => 1);
@@ -67,10 +68,9 @@ sub get_term {
 		return 0;
 	});
 	
-	
 	$out->spawn_sync (
 		'default',
-		$HOME,
+		&getcwd,
 		\@cmds,
 		[],
 		'default',

@@ -24,7 +24,7 @@ sub is_started {
 	my @machines = $class->machines();
 	
 	# Gets list of running machine names in ~/.netkit/machines/. Regex removes path.
-	my @running = map { $_ =~ /$HOME\/\.netkit\/machines\/(.*?)\//g ? $1 : undef } <$HOME/.netkit/machines/*/>;
+	my @running = map { $_ =~ /$HOME\/\.netkit\/machines\/(.*?)\//g ? $1 : undef } <$HOME/.netkit/machines/*>;
 	
 	for my $machine (@machines) {				
 		if(! (any {$_ eq $machine} @running)) {
@@ -39,13 +39,11 @@ sub is_started {
 sub start {
 	my $class = shift;
 	
-	my $port_start = shift // 5000;
-	
 	my $start_dir = getcwd;
 	
 	chdir $class->{dir};
 	
-	system("lstart --pass=--con0=none --port-start $port_start");
+	system("kathara lstart --noterminals");
 	
 	chdir $start_dir;
 }
@@ -57,7 +55,7 @@ sub stop {
 	
 	chdir $class->{dir};
 	
-	system("lcrash");
+	system("kathara lclean");
 	
 	chdir $start_dir;
 }
@@ -79,30 +77,6 @@ sub machines {
 	}
 	
 	return @out;
-}
-
-sub machine_ttys {
-	my $class = shift;
-	my $machine = shift;
-	
-	my $root = $class->{dir};
-	
-	my %out = ();
-	
-	for my $path (<$HOME/.netkit/machines/$machine/port.tty*>) {
-		my $id;
-		if($path =~ /$HOME\/\.netkit\/machines\/$machine\/port\.tty(\d+)/g) { # Just extract tty id.
-			$id = $1;
-		}
-		
-		open FH, '<', $path;
-		
-		chomp(@out{$id} = <FH>);
-		
-		close FH;
-	}
-	
-	return %out;
 }
 
 
