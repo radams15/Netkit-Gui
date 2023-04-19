@@ -21,10 +21,20 @@ sub new {
 sub is_started {
 	my $class = shift;
 	
+	return 0; # Following takes too long - let Kathara realise the machines are already started.
+	
 	my @machines = $class->machines();
 	
 	# Gets list of running machine names in ~/.netkit/machines/. Regex removes path.
-	my @running = map { $_ =~ /$HOME\/\.netkit\/machines\/(.*?)\//g ? $1 : undef } <$HOME/.netkit/machines/*>;
+	my @running;
+
+	my $listed = `kathara list`;
+	
+	while ($listed =~ /^║\s*.*?\s*║\s*(\S*?)\s*║.*/g) {
+		(push @running, $1) unless $1 eq 'NAME';
+	}
+
+	print "Running: @running\n";
 	
 	for my $machine (@machines) {				
 		if(! (any {$_ eq $machine} @running)) {
