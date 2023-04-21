@@ -4,7 +4,7 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME              => 'App::NetkitGui',
-    VERSION_FROM      => 'bin/netkitgui',
+    VERSION_FROM      => 'bin/nkgui',
     PREREQ_PM         => {
     	'strict' => 0,
     	'warnings' => 0,
@@ -13,8 +13,8 @@ WriteMakefile(
     	'Glib::Object::Introspection' => 0.049,
     	'Cairo::GObject' => 1.005,
     },
-    ABSTRACT_FROM     => 'bin/netkitgui', # retrieve abstract from module
-    EXE_FILES         => ['bin/netkitgui'],
+    ABSTRACT_FROM     => 'bin/nkgui', # retrieve abstract from module
+    EXE_FILES         => ['bin/nkgui'],
     AUTHOR            => 'Rhys Adams <rhys@therhys.co.uk>',
     LICENSE           => 'perl',
 );
