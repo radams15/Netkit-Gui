@@ -10,19 +10,20 @@ use File::Spec;
 use NetkitGui::Lab;
 use NetkitGui::MainWindow;
 
-
-our $VERSION = 0.01;
-
+use Cwd;
 
 
-my $lab_dir = $ARGV[0] or die "Lab directory required!";
+our $VERSION = 0.1;
+
+
+my $lab_dir = $ARGV[0] // &getcwd;
 
 $lab_dir = File::Spec->rel2abs($lab_dir);
 
 my $lab = NetkitGui::Lab->new($lab_dir);
 
 if(! $lab->is_started) {
-	print "Lab not started, starting lab!\n";
+	#print "Lab not started, starting lab!\n";
 	$lab->start;
 }
 

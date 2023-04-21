@@ -2,7 +2,7 @@ Changes
 Makefile.PL
 MANIFEST
 README
-bin/netkitgui
+bin/nkgui
 lib/NetkitGui/Lab.pm
 lib/NetkitGui/MachineWidget.pm
 lib/NetkitGui/MainWindow.pm
