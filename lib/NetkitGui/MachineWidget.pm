@@ -27,7 +27,7 @@ sub new {
 
 	for my $id (@ttys) {
 		my $label = Gtk3::Label->new("TTY$id");
-		my $term = &get_term("$HOME/.local/bin/kathara", "connect", "$machine");
+		my $term = &get_term("/bin/kathara", "connect", "$machine");
 		
 		$self->{tty_notebook}->append_page($term, $label);
 		$self->{tty_notebook}->child_set($term, tab_expand => 1);
