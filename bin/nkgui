@@ -6,17 +6,21 @@ use strict;
 use lib './lib';
 
 use File::Spec;
+use Getopt::Long;
 
 use NetkitGui::Lab;
 use NetkitGui::MainWindow;
 
 use Cwd;
 
-
 our $VERSION = 0.1;
 
-
-my $lab_dir = $ARGV[0] // &getcwd;
+my $lab_dir = &getcwd;
+my $num_ttys = 1;
+GetOptions (
+	'dir=s' => \$lab_dir,
+	'ttys=i' => \$num_ttys,
+);
 
 $lab_dir = File::Spec->rel2abs($lab_dir);
 
@@ -27,7 +31,7 @@ if(! $lab->is_started) {
 	$lab->start;
 }
 
-my $win = NetkitGui::MainWindow->new($lab, 0);
+my $win = NetkitGui::MainWindow->new($lab, $num_ttys, 0);
 
 $win->run;
 

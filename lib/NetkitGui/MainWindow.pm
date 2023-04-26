@@ -14,11 +14,13 @@ sub new {
 	my $class = shift;
 	
 	my $lab = shift;
+	my $num_ttys = shift;
 	my $headerbar = shift // 1;
 	
 	my $self = bless {
 		lab => $lab,
-		headerbar => $headerbar
+		headerbar => $headerbar,
+		num_ttys => $num_ttys,
 	}, $class;
 
 	return $self;
@@ -39,11 +41,12 @@ sub activate {
 	$class->{main_notebook}->set_scrollable(1);
 	$class->{main_notebook}->signal_connect(create_window => sub {$class->notebook_create_window($class->{main_notebook})});
 	$class->{main_notebook}->set_group_name('0');
+	$class->{main_notebook}->popup_enable();
 	
 	for my $machine ($class->{lab}->machines) {
 		my $label = Gtk3::Label->new("$machine");
 		
-		my $widget = NetkitGui::MachineWidget->new($class->{lab}, $machine, $class->{headerbar});
+		my $widget = NetkitGui::MachineWidget->new($class->{lab}, $machine, $class->{num_ttys}, $class->{headerbar});
 
 		$class->{main_notebook}->append_page($widget, $label);
 		

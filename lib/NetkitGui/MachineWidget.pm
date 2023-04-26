@@ -10,22 +10,15 @@ use Glib::IO;
 use NetkitGui::Vte;
 use Gtk3;
 
-my $NUM_TTYS = 3;
-
 sub new {
 	my $class = shift;
-	
-	my $lab = shift;
-	my $machine = shift;
-	my $headerbar = shift;
+	my ($lab, $machine, $num_ttys, $headerbar) = @_;
 
 	my $self = Gtk3::Box->new('vertical', 5);
 	
 	$self->{tty_notebook} = Gtk3::Notebook->new();
 
-	my @ttys = (0..($NUM_TTYS-1));
-
-	for my $id (@ttys) {
+	for my $id (0..($num_ttys-1)) {
 		my $label = Gtk3::Label->new("TTY$id");
 		my $term = &get_term("/bin/kathara", "connect", "$machine");
 		
