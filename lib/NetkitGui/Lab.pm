@@ -10,9 +10,11 @@ use List::Util qw(any);
 sub new {
 	my $class = shift;
 	my $dir = shift;
+	my $engine = shift;
 	
 	my $self = bless {
 		dir => $dir,
+		engine => $engine,
 	}, $class;
 
 	return $self;
@@ -53,7 +55,13 @@ sub start {
 	
 	chdir $class->{dir};
 	
-	system("kathara lstart --noterminals");
+	if($class->{engine} =~ /kathara/i) {
+		system("kathara lstart --noterminals");
+	} elsif($class->{engine} =~ /netkit/i) {
+		system("lstart --pass=--tmux-detached");
+	} else {
+		die "Unknown engine: '$class->{engine}'";
+	}
 	
 	chdir $start_dir;
 }

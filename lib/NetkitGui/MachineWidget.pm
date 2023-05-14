@@ -3,7 +3,7 @@ package NetkitGui::MachineWidget;
 use warnings;
 use strict;
 
-use Env qw(HOME);
+use Env qw(HOME NETKIT_HOME);
 use Cwd;
 
 use Glib::IO;
@@ -12,7 +12,7 @@ use Gtk3;
 
 sub new {
 	my $class = shift;
-	my ($lab, $machine, $num_ttys, $headerbar) = @_;
+	my ($lab, $machine, $num_ttys, $engine, $headerbar) = @_;
 
 	my $self = Gtk3::Box->new('vertical', 5);
 	
@@ -20,7 +20,15 @@ sub new {
 
 	for my $id (0..($num_ttys-1)) {
 		my $label = Gtk3::Label->new("TTY$id");
-		my $term = &get_term("/bin/kathara", "connect", "$machine");
+		my $term;
+
+		if($engine =~ /netkit/i) {
+			$term = &new_netkit($self, $machine);
+		} elsif($engine =~ /kathara/i) {
+			$term = &new_kathara($self, $machine);
+		} else {
+			die "Unknown engine: '$engine'";
+		}
 		
 		$self->{tty_notebook}->append_page($term, $label);
 		$self->{tty_notebook}->child_set($term, tab_expand => 1);
@@ -29,6 +37,20 @@ sub new {
 	$self->add($self->{tty_notebook});
 
 	return $self;
+}
+
+sub new_kathara {
+	my $class = shift;
+	my ($machine) = @_;
+
+	&get_term("/bin/kathara", "connect", "$machine");
+}
+
+sub new_netkit {
+	my $class = shift;
+	my ($machine) = @_;
+
+	&get_term("$NETKIT_HOME/bin/vconnect", "$machine");
 }
 
 sub get_term {

@@ -18,21 +18,23 @@ our $VERSION = 1.0;
 
 my $lab_dir = &getcwd;
 my $num_ttys = 1;
+my $engine = 'netkit';
 GetOptions (
 	'dir=s' => \$lab_dir,
 	'ttys=i' => \$num_ttys,
+	'engine=s' => \$engine,
 );
 
 $lab_dir = File::Spec->rel2abs($lab_dir);
 
-my $lab = NetkitGui::Lab->new($lab_dir);
+my $lab = NetkitGui::Lab->new($lab_dir, $engine);
 
 if(! $lab->is_started) {
 	#print "Lab not started, starting lab!\n";
 	$lab->start;
 }
 
-my $win = NetkitGui::MainWindow->new($lab, $num_ttys, 0);
+my $win = NetkitGui::MainWindow->new($lab, $num_ttys, $engine, 0);
 
 $win->run;
 

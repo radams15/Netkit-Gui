@@ -15,12 +15,14 @@ sub new {
 	
 	my $lab = shift;
 	my $num_ttys = shift;
+	my $engine = shift;
 	my $headerbar = shift // 1;
 	
 	my $self = bless {
 		lab => $lab,
 		headerbar => $headerbar,
 		num_ttys => $num_ttys,
+		engine => $engine,
 	}, $class;
 
 	return $self;
@@ -46,7 +48,7 @@ sub activate {
 	for my $machine ($class->{lab}->machines) {
 		my $label = Gtk3::Label->new("$machine");
 		
-		my $widget = NetkitGui::MachineWidget->new($class->{lab}, $machine, $class->{num_ttys}, $class->{headerbar});
+		my $widget = NetkitGui::MachineWidget->new($class->{lab}, $machine, $class->{num_ttys}, $class->{engine}, $class->{headerbar});
 
 		$class->{main_notebook}->append_page($widget, $label);
 		
